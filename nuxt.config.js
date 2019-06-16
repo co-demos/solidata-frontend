@@ -1,7 +1,13 @@
+import pkg from './package'
+
+require('dotenv').config()
+
+console.log('>>> nuxt.config.js / process.env.NUXT_ENV_API_VAR : ', process.env.NUXT_ENV_API_VAR)
+
 const chooseAPIbaseUrl = (ENVPROD) => {
-  const NUXT_ENV_API_DEV = 'http://localhost:4000/api'
+  const NUXT_ENV_API_DEV     = 'http://localhost:4000/api'
   const NUXT_ENV_API_PREPROD = 'https://solidata-preprod-api.co-demos.com/api'
-  const NUXT_ENV_API_PROD = 'https://solidata-api.co-demos.com/api'
+  const NUXT_ENV_API_PROD    = 'https://solidata-api.co-demos.com/api'
   if (ENVPROD === 'local') {
     return NUXT_ENV_API_DEV
   } else if (ENVPROD === 'preprod') {
@@ -11,9 +17,9 @@ const chooseAPIbaseUrl = (ENVPROD) => {
   }
 }
 const choosePort = (ENVPROD) => {
-  const NUXT_ENV_PORT_DEV = 3000
+  const NUXT_ENV_PORT_DEV     = 3000
   const NUXT_ENV_PORT_PREPROD = 8000
-  const NUXT_ENV_PORT_PROD = 3000
+  const NUXT_ENV_PORT_PROD    = 3000
   if (ENVPROD === 'local') {
     return NUXT_ENV_PORT_DEV
   } else if (ENVPROD === 'preprod') {
