@@ -17,18 +17,16 @@ Vue.prototype.$EncryptionRSA = (stringToEncrypt, publicKey, rsaEncrypt = true) =
   let encrypted
 
   if (rsaEncrypt) {
-    // JSENCRYPT
-
-    // Encrypt with the public key...
+    // JSENCRYPT - Encrypt with the public key...
     var encrypt = new JSEncrypt()
     // console.log('> > > plugin EncryptString / encrypt : ', encrypt)
     encrypt.setPublicKey(publicKey)
     encrypted = encrypt.encrypt(stringToEncrypt)
-    // console.log('> > > plugin EncryptString / encrypted : ', encrypted)
   } else {
     encrypted = stringToEncrypt
   }
 
+  // console.log('> > > plugin EncryptString / encrypted : ', encrypted)
   return {
     salt: publicKey,
     hashed: encrypted

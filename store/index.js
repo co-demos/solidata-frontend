@@ -230,6 +230,7 @@ export const state = () => ({
   APIURL: process.env.CONFIG_APP.API_URL,
   RSA_ENCRYPT: process.env.CONFIG_APP.RSA_ENCRYPT,
   ANO_MODE: process.env.CONFIG_APP.ANO_MODE,
+  ANTISPAM_MODE: process.env.CONFIG_APP.ANTISPAM_MODE,
   is_debug: false,
 
   // APP TITLE

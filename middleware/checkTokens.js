@@ -117,9 +117,12 @@ export default function ({ req, store, app, redirect }) {
   // if ( accessToken == null || store.state.auth.isAnonymous ) {
   if (accessToken == null) {
     // if neither tokens in cookie nor store consider user as anonymous and get anonymous access_token
+    let promisesList = []
     console.log('- - - checkTokens / no access_token detected')
     const accessAnonymous = store.dispatch('auth/loginAnonymous')
-    return Promise.all([ accessAnonymous ])
+    promisesList.push(accessAnonymous)
+    // return Promise.all([ accessAnonymous ])
+    return Promise.all(promisesList)
   } else {
     // 2b // If the user an access_token and a test them
     console.log('- - - checkTokens / access_token and refresh_token detected')

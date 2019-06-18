@@ -221,35 +221,39 @@ export const actions = {
     console.log('\n...store/auth : loginAnonymous...')
 
     let anonymousMode = rootState.ANO_MODE
-    console.log('\n...store/auth : loginAnonymous / anonymousMode :', anonymousMode)
+    console.log('...store/auth : loginAnonymous / anonymousMode :', anonymousMode)
 
-    return this.$axios.$get('auth/login/anonymous/')
+    if (anonymousMode) {
+      return this.$axios.$get('auth/login/anonymous/')
 
-      .then(response => {
-        console.log('\n...store/auth/loginAnonymous : response : ', response)
-        commit('set_isAnonymous', true)
-        commit('set_isLogged', false)
-        commit('set_user', anonymousInfos)
-        commit('set_tokens', response.tokens)
+        .then(response => {
+          console.log('...store/auth/loginAnonymous : response : ', response)
+          commit('set_isAnonymous', true)
+          commit('set_isLogged', false)
+          commit('set_user', anonymousInfos)
+          commit('set_tokens', response.tokens)
 
-        // cf documentation js-cookie : https://github.com/js-cookie/js-cookie
-        Cookie.set('access_token', response.tokens.access_token)
-        Cookie.set('refresh_token', response.tokens.refresh_token)
-        Cookie.set('salt_token', response.tokens.salt_token)
+          // cf documentation js-cookie : https://github.com/js-cookie/js-cookie
+          Cookie.set('access_token', response.tokens.access_token)
+          Cookie.set('refresh_token', response.tokens.refresh_token)
+          Cookie.set('salt_token', response.tokens.salt_token)
 
-        // localStorage.removeItem("tokens");
-        // resolve()
-        return response
-      })
+          // localStorage.removeItem("tokens");
+          // resolve()
+          return response
+        })
 
-      .catch(error => {
-        return error
-      })
+        .catch(error => {
+          return error
+        })
+    } else {
+      return true
+    }
   },
 
   register ({commit, state}, data) {
     console.log('\n...store/auth : register...')
-    console.log('\n...store/auth/register : data : ', data)
+    console.log('...store/auth/register : data : ', data)
 
     // needs an anonymous access_token to create new user
     const config = {'headers': { 'Authorization': state.access_token }}
