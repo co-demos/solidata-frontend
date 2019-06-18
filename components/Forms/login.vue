@@ -229,6 +229,7 @@ export default {
 
         // use saltToken as public_key for RSA encryption
         const rsaEncrypt = this.$store.state.RSA_ENCRYPT
+        const antispamMode = this.$store.state.ANTISPAM_MODE
         var saltToken = this.$store.state.auth.salt_token
 
         // var TEST_PLUGIN = this.$EncryptionRSA(  this.password, saltToken )

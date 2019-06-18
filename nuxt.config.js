@@ -18,27 +18,6 @@ const cchooseBooleanMode = (ARG) => {
     return false
   }
 }
-// const chooseAnonnymousMode = (ANO_MODE) => {
-//   if (trueStrings.includes(ANO_MODE)) {
-//     return true
-//   } else {
-//     return false
-//   }
-// }
-// const chooseAntispamMode = (ANTISPAM_MODE) => {
-//   if (trueStrings.includes(ANTISPAM_MODE)) {
-//     return true
-//   } else {
-//     return false
-//   }
-// }
-// const chooseEncryptMode = (ENCRYPT_MODE) => {
-//   if (trueStrings.includes(ENCRYPT_MODE)) {
-//     return true
-//   } else {
-//     return false
-//   }
-// }
 const chooseAPIbaseUrl = (ENVPROD) => {
   const NUXT_ENV_API_DEV = process.env.NUXT_ENV_API_DEV || 'http://localhost:4000/api'
   const NUXT_ENV_API_PREPROD = process.env.NUXT_ENV_API_PREPROD || 'https://solidata-preprod-api.co-demos.com/api'
