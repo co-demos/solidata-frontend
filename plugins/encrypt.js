@@ -5,26 +5,29 @@ import JSEncrypt from 'jsencrypt'
 
 console.log('> > > plugins/encrypt... ')
 
-Vue.prototype.$EncryptionRSA = (stringToEncrypt, publicKey) => {
+Vue.prototype.$EncryptionRSA = (stringToEncrypt, publicKey, rsaEncrypt = true) => {
   // cf : https://github.com/travist/jsencrypt
 
-  // console.log('> > > plugin EncryptionRSA / stringToEncrypt : ', stringToEncrypt)
+  console.log('> > > plugin EncryptionRSA / stringToEncrypt : ', stringToEncrypt)
   // console.log('> > > plugin EncryptionRSA / publicKey : ', publicKey)
 
-  // NODE-RSA TEST
-  // const key = new NodeRSA(pem_public_key);
-  // // string to bytes
-  // var buffer = new Buffer(stringToEncrypt, "utf8")
-  // var encrypted = key.encrypt(buffer, "hex")
+  console.log('> > > plugin EncryptionRSA / process.env : ', process.env)
+  console.log('> > > plugin EncryptionRSA / rsaEncrypt : ', rsaEncrypt)
 
-  // JSENCRYPT
-  // Encrypt with the public key...
-  var encrypt = new JSEncrypt()
-  // console.log('> > > plugin EncryptString / encrypt : ', encrypt)
-  encrypt.setPublicKey(publicKey)
-  var encrypted = encrypt.encrypt(stringToEncrypt)
+  let encrypted
 
-  // console.log('> > > plugin EncryptString / encrypted : ', encrypted)
+  if (rsaEncrypt) {
+    // JSENCRYPT
+
+    // Encrypt with the public key...
+    var encrypt = new JSEncrypt()
+    // console.log('> > > plugin EncryptString / encrypt : ', encrypt)
+    encrypt.setPublicKey(publicKey)
+    encrypted = encrypt.encrypt(stringToEncrypt)
+    // console.log('> > > plugin EncryptString / encrypted : ', encrypted)
+  } else {
+    encrypted = stringToEncrypt
+  }
 
   return {
     salt: publicKey,

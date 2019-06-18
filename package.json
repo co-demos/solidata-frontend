@@ -5,17 +5,17 @@
   "author": "JPy <jparis.py@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "NUXT_ENV_API_VAR=local nuxt",
-    "dev_preprod": "NUXT_ENV_API_VAR=preprod nuxt",
-    "build_dev": "NUXT_ENV_API_VAR=local nuxt build",
-    "start_dev": "NUXT_ENV_API_VAR=local nuxt start",
-    "generate_dev": " NUXT_ENV_API_VAR=local nuxt generate",
-    "build_preprod": " NUXT_ENV_API_VAR=preprod nuxt build",
-    "start_preprod": " NUXT_ENV_API_VAR=preprod nuxt start",
-    "generate_preprod": " NUXT_ENV_API_VAR=preprod nuxt generate",
-    "build": " NUXT_ENV_API_VAR=prod nuxt build",
-    "start": " NUXT_ENV_API_VAR=prod nuxt start",
-    "generate": " NUXT_ENV_API_VAR=prod nuxt generate"
+    "dev": "nuxt",
+    "dev_preprod": "nuxt",
+    "build_dev": "nuxt build",
+    "start_dev": "nuxt start",
+    "generate_dev": "nuxt generate",
+    "build_preprod": "nuxt build",
+    "start_preprod": "nuxt start",
+    "generate_preprod": "nuxt generate",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",

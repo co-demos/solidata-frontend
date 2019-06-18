@@ -220,7 +220,8 @@ export const actions = {
   loginAnonymous ({commit, dispatch, rootState}) {
     console.log('\n...store/auth : loginAnonymous...')
 
-    // var logout = dispatch('logout');
+    let anonymousMode = rootState.ANO_MODE
+    console.log('\n...store/auth : loginAnonymous / anonymousMode :', anonymousMode)
 
     return this.$axios.$get('auth/login/anonymous/')
 

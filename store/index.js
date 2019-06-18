@@ -228,6 +228,8 @@ export const state = () => ({
   LOG: process.env.LOG,
   CONFIG: process.env.CONFIG_APP,
   APIURL: process.env.CONFIG_APP.API_URL,
+  RSA_ENCRYPT: process.env.CONFIG_APP.RSA_ENCRYPT,
+  ANO_MODE: process.env.CONFIG_APP.ANO_MODE,
   is_debug: false,
 
   // APP TITLE
