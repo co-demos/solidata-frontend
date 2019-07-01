@@ -193,12 +193,16 @@
           <!-- EXPORT BTN -->
           <v-list-tile
             v-if="is_export"
-            disabled
+            @click="downloadDataset()"
             >
+            <!-- disabled -->
             <v-list-tile-title
+              class="pa-0 ma-0"
               >
               <v-icon 
                 small
+                left
+                class="pr-1 mb-1" 
                 color=""
                 >
                 {{ $store.state.mainIcons.export.icon }}
@@ -584,7 +588,7 @@ export default {
       return (this.isPreview) ? 'white' : 'primary'
     },
     docAPIurl () {
-      return this.$store.state.APIURL + "/" + this.coll + "/documentation"
+      return this.$store.state.APIURL + '/' + this.coll + '/documentation'
     }
   },
 
@@ -635,6 +639,44 @@ export default {
       return canUpdateField
     },
 
+    downloadDataset () {
+      this.$store.state.LOG && this.$store.state.LOG && console.log('itemToolbar - downloadDataset ...')
+
+      this.loading = true
+      // this.is_loading = true
+
+      let exportInput = {
+        coll: this.coll,
+        doc_id: this.itemId
+      }
+      this.$store.dispatch('downloadDataset', exportInput)
+
+        .then(response => {
+          this.$store.state.LOG && console.log('itemToolbar - downloadDataset / response: ', response)
+          this.$store.state.LOG && console.log('itemToolbar - downloadDataset / response.data: ', response.data)
+
+          this.loading = false
+
+          let fileName = this.coll + '_' + this.itemTitle + '.csv'
+
+          let blob = new Blob([response], {type: 'text/csv'})
+          const link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          link.setAttribute('download', fileName) // or any other extension
+          document.body.appendChild(link)
+          link.click()
+        })
+
+        .catch(error => {
+          this.$store.state.LOG && console.log('itemToolbar - downloadDataset / error... : ', error)
+          this.loading = false
+          this.is_loading = false
+          if (error.response && error.response.data) {
+            this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}
+          }
+        })
+    },
+
     reloadData () {
       this.$store.state.LOG && this.$store.state.LOG && console.log('itemToolbar - reloadData ...')
       const reloadSpecs = this.$store.state[this.coll].reload_data
@@ -669,7 +711,7 @@ export default {
       this.$store.state.LOG && console.log('\n itemToolbar - deleItem ... ')
 
       this.loading = true
-      this.is_loading = true
+      // this.is_loading = true
 
       var callInput = {
         coll: this.coll,
@@ -682,7 +724,7 @@ export default {
           this.$store.state.LOG && console.log('itemToolbar - deleItem / response: ', response)
 
           this.loading = false
-          this.is_loading = false
+          // this.is_loading = false
           this.alert = {type: 'success', message: response.msg}
 
           return this.$router.push(`/${this.coll}`)
@@ -692,7 +734,7 @@ export default {
           this.$store.state.LOG && console.log('itemToolbar - deleItem / error... : ', error)
 
           this.loading = false
-          this.is_loading = false
+          // this.is_loading = false
 
           if (error.response && error.response.data) {
             this.alert = {type: 'error', message: error.response.data.msg || error.reponse.status}

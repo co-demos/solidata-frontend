@@ -11,7 +11,7 @@ console.log('\n>>> nuxt.config.js / process.env.NUXT_ENV_ANTISPAM_MODE : ', proc
 const trueStrings = ['yes', 'Yes', 'YES', 'y', 'Y', 'true', 'True', 'TRUE', 't', 'T']
 // const falseStrings = ['no', 'No', 'NO', 'n', 'N', 'false', 'False', 'FALSE', 'f', 'F']
 
-const cchooseBooleanMode = (ARG) => {
+const chooseBooleanMode = (ARG) => {
   if (trueStrings.includes(ARG)) {
     return true
   } else {
@@ -45,9 +45,9 @@ const choosePort = (ENVPROD) => {
 const logAllowed = ['preprod', 'local']
 const configApp = {
   API_URL: chooseAPIbaseUrl(process.env.NUXT_ENV_API_VAR),
-  ANO_MODE: cchooseBooleanMode(process.env.NUXT_ENV_ANONYMOUS_MODE || 'yes'),
-  ANTISPAM_MODE: cchooseBooleanMode(process.env.NUXT_ENV_ANTISPAM_MODE || 'no'),
-  RSA_ENCRYPT: cchooseBooleanMode(process.env.NUXT_ENV_RSA_ENCRYPT || 'no'),
+  ANO_MODE: chooseBooleanMode(process.env.NUXT_ENV_ANONYMOUS_MODE || 'yes'),
+  ANTISPAM_MODE: chooseBooleanMode(process.env.NUXT_ENV_ANTISPAM_MODE || 'no'),
+  RSA_ENCRYPT: chooseBooleanMode(process.env.NUXT_ENV_RSA_ENCRYPT || 'no'),
   port: choosePort(process.env.NUXT_ENV_API_VAR),
   mode: process.env.NUXT_ENV_API_VAR
 }

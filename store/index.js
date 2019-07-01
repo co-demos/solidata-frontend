@@ -1037,6 +1037,35 @@ export const actions = {
       })
   },
 
+  downloadDataset ({commit, state, rootState}, input) {
+    state.LOG && console.log('\n... $ downloadDataset : input : ', input)
+
+    var collection = input.coll
+    var docId = input.doc_id
+
+    const config = {
+      headers: {
+        'Authorization': rootState.auth.access_token,
+        'Accept': 'application/octet-stream'
+      }
+      // responseType: 'blob',
+      // responseType: 'arraybuffer'
+    }
+    state.LOG && console.log('... $ downloadDataset : config : ', config)
+
+    return this.$axios.$get(`${collection}/exports/as_csv/${docId}`, config)
+      .then(response => {
+        state.LOG && console.log(`... $ downloadDataset : response : `, response)
+        // commit(`set_alert`, response.msg)
+        return response
+      })
+      .catch(error => {
+        state.LOG && console.log('... $ downloadDataset / error : ', error)
+        commit(`set_error`, error)
+        return error
+      })
+  },
+
   deleteItem ({commit, state, rootState}, input) {
     state.LOG && console.log('\n... $ deleteItem : input : ', input)
 

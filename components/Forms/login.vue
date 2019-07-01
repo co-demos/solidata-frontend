@@ -251,6 +251,11 @@ export default {
           pseudoForm.pwd = encryptedPwd.hashed
         }
 
+        // TO FINISH
+        if (antispamMode) {
+          console.log('submitLogin / antispamMode :', antispamMode)
+        }
+
         // dispatch action from store/auth
         this.$store.dispatch('auth/login', pseudoForm)
 
