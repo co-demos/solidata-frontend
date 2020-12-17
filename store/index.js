@@ -228,6 +228,9 @@ export const state = () => ({
   LOG: process.env.LOG,
   CONFIG: process.env.CONFIG_APP,
   APIURL: process.env.CONFIG_APP.API_URL,
+  RSA_ENCRYPT: process.env.CONFIG_APP.RSA_ENCRYPT,
+  ANO_MODE: process.env.CONFIG_APP.ANO_MODE,
+  ANTISPAM_MODE: process.env.CONFIG_APP.ANTISPAM_MODE,
   is_debug: false,
 
   // APP TITLE
@@ -1029,6 +1032,35 @@ export const actions = {
 
       .catch(error => {
         state.LOG && console.log('... $ buildDso / error : ', error)
+        commit(`set_error`, error)
+        return error
+      })
+  },
+
+  downloadDataset ({commit, state, rootState}, input) {
+    state.LOG && console.log('\n... $ downloadDataset : input : ', input)
+
+    var collection = input.coll
+    var docId = input.doc_id
+
+    const config = {
+      headers: {
+        'Authorization': rootState.auth.access_token,
+        'Accept': 'application/octet-stream'
+      }
+      // responseType: 'blob',
+      // responseType: 'arraybuffer'
+    }
+    state.LOG && console.log('... $ downloadDataset : config : ', config)
+
+    return this.$axios.$get(`${collection}/exports/as_csv/${docId}`, config)
+      .then(response => {
+        state.LOG && console.log(`... $ downloadDataset : response : `, response)
+        // commit(`set_alert`, response.msg)
+        return response
+      })
+      .catch(error => {
+        state.LOG && console.log('... $ downloadDataset / error : ', error)
         commit(`set_error`, error)
         return error
       })

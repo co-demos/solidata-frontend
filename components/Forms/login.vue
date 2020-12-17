@@ -228,22 +228,32 @@ export default {
         // - - - - - - - - - - - - - //
 
         // use saltToken as public_key for RSA encryption
+        const rsaEncrypt = this.$store.state.RSA_ENCRYPT
+        const antispamMode = this.$store.state.ANTISPAM_MODE
         var saltToken = this.$store.state.auth.salt_token
 
         // var TEST_PLUGIN = this.$EncryptionRSA(  this.password, saltToken )
         // console.log("> > > TEST_PLUGIN : ", TEST_PLUGIN ) ;
 
-        var encryptedPwd = this.$EncryptionRSA(this.password, saltToken)
+        var encryptedPwd = this.$EncryptionRSA(this.password, saltToken, rsaEncrypt)
         console.log('encryptedPwd : ', encryptedPwd)
 
-        var encryptedEmail = this.$EncryptionRSA(this.email_bis, saltToken)
+        var encryptedEmail = this.$EncryptionRSA(this.email_bis, saltToken, rsaEncrypt)
         console.log('encryptedEmail : ', encryptedEmail)
 
-        let pseudoForm = {
-          // email : this.email,
-          email_encrypt: encryptedEmail.hashed,
-          // pwd : this.password,
-          pwd_encrypt: encryptedPwd.hashed
+        let pseudoForm = {}
+
+        if (rsaEncrypt) {
+          pseudoForm.email_encrypt = encryptedEmail.hashed
+          pseudoForm.pwd_encrypt = encryptedPwd.hashed
+        } else {
+          pseudoForm.email = encryptedEmail.hashed
+          pseudoForm.pwd = encryptedPwd.hashed
+        }
+
+        // TO FINISH
+        if (antispamMode) {
+          console.log('submitLogin / antispamMode :', antispamMode)
         }
 
         // dispatch action from store/auth

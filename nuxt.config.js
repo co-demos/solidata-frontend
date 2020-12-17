@@ -1,7 +1,27 @@
+import pkg from './package'
+import { noConflict } from 'q'
+
+require('dotenv').config()
+
+console.log('\n>>> nuxt.config.js / process.env.NUXT_ENV_API_VAR : ', process.env.NUXT_ENV_API_VAR)
+console.log('\n>>> nuxt.config.js / process.env.NUXT_ENV_RSA_ENCRYPT : ', process.env.NUXT_ENV_RSA_ENCRYPT)
+console.log('\n>>> nuxt.config.js / process.env.NUXT_ENV_ANONYMOUS_MODE : ', process.env.NUXT_ENV_ANONYMOUS_MODE)
+console.log('\n>>> nuxt.config.js / process.env.NUXT_ENV_ANTISPAM_MODE : ', process.env.NUXT_ENV_ANTISPAM_MODE)
+
+const trueStrings = ['yes', 'Yes', 'YES', 'y', 'Y', 'true', 'True', 'TRUE', 't', 'T']
+// const falseStrings = ['no', 'No', 'NO', 'n', 'N', 'false', 'False', 'FALSE', 'f', 'F']
+
+const chooseBooleanMode = (ARG) => {
+  if (trueStrings.includes(ARG)) {
+    return true
+  } else {
+    return false
+  }
+}
 const chooseAPIbaseUrl = (ENVPROD) => {
-  const NUXT_ENV_API_DEV = 'http://localhost:4000/api'
-  const NUXT_ENV_API_PREPROD = 'https://solidata-preprod-api.co-demos.com/api'
-  const NUXT_ENV_API_PROD = 'https://solidata-api.co-demos.com/api'
+  const NUXT_ENV_API_DEV = process.env.NUXT_ENV_API_DEV || 'http://localhost:4000/api'
+  const NUXT_ENV_API_PREPROD = process.env.NUXT_ENV_API_PREPROD || 'https://solidata-preprod-api.co-demos.com/api'
+  const NUXT_ENV_API_PROD = process.env.NUXT_ENV_API_PROD || 'https://solidata-api.co-demos.com/api'
   if (ENVPROD === 'local') {
     return NUXT_ENV_API_DEV
   } else if (ENVPROD === 'preprod') {
@@ -11,9 +31,9 @@ const chooseAPIbaseUrl = (ENVPROD) => {
   }
 }
 const choosePort = (ENVPROD) => {
-  const NUXT_ENV_PORT_DEV = 3000
-  const NUXT_ENV_PORT_PREPROD = 8000
-  const NUXT_ENV_PORT_PROD = 3000
+  const NUXT_ENV_PORT_DEV = parseInt(process.env.NUXT_ENV_PORT_DEV) || 3000
+  const NUXT_ENV_PORT_PREPROD = parseInt(process.env.NUXT_ENV_PORT_PREPROD) || 8000
+  const NUXT_ENV_PORT_PROD = parseInt(process.env.NUXT_ENV_PORT_PROD) || 3000
   if (ENVPROD === 'local') {
     return NUXT_ENV_PORT_DEV
   } else if (ENVPROD === 'preprod') {
@@ -25,11 +45,15 @@ const choosePort = (ENVPROD) => {
 const logAllowed = ['preprod', 'local']
 const configApp = {
   API_URL: chooseAPIbaseUrl(process.env.NUXT_ENV_API_VAR),
+  ANO_MODE: chooseBooleanMode(process.env.NUXT_ENV_ANONYMOUS_MODE || 'yes'),
+  ANTISPAM_MODE: chooseBooleanMode(process.env.NUXT_ENV_ANTISPAM_MODE || 'no'),
+  RSA_ENCRYPT: chooseBooleanMode(process.env.NUXT_ENV_RSA_ENCRYPT || 'no'),
   port: choosePort(process.env.NUXT_ENV_API_VAR),
   mode: process.env.NUXT_ENV_API_VAR
 }
-console.log('process.env :', process.env)
-console.log('configApp :', configApp)
+console.log('\nprocess.env :', process.env)
+console.log('\nconfigApp :', configApp)
+
 module.exports = {
 
   mode: 'universal',
@@ -65,7 +89,7 @@ module.exports = {
     DEBUG: process.env.NODE_ENV === 'development',
     MODE_APP: configApp.mode,
     LOG: logAllowed.includes(configApp.mode),
-    CONFIG_APP: configApp,
+    CONFIG_APP: configApp
   },
 
   router: {

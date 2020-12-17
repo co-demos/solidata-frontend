@@ -202,20 +202,25 @@ export default {
   computed: {
     pseudoForm () {
       if (process.client === true) {
+        const rsaEncrypt = this.$store.state.RSA_ENCRYPT
         const saltToken = this.$store.state.auth.salt_token
-        var encryptedPwd = this.password !== '' ? this.$EncryptionRSA(this.password, saltToken) : ''
-        var encryptedEmail = this.email_bis !== '' ? this.$EncryptionRSA(this.email_bis, saltToken) : ''
+        var encryptedPwd = this.password !== '' ? this.$EncryptionRSA(this.password, saltToken, rsaEncrypt) : ''
+        var encryptedEmail = this.email_bis !== '' ? this.$EncryptionRSA(this.email_bis, saltToken, rsaEncrypt) : ''
 
         let pseudoForm = {
-          // email : this.email,
-          email_encrypt: encryptedEmail.hashed,
-          pwd_encrypt: encryptedPwd.hashed,
           name: this.name,
           surname: this.surname,
-          // pwd : this.password,
           lang: this.$store.state.locale,
           agreement: this.agreement
         }
+        if (rsaEncrypt) {
+          pseudoForm.email_encrypt = encryptedEmail.hashed
+          pseudoForm.pwd_encrypt = encryptedPwd.hashed
+        } else {
+          pseudoForm.email = encryptedEmail.hashed
+          pseudoForm.pwd = encryptedPwd.hashed
+        }
+
         return pseudoForm
       }
     }

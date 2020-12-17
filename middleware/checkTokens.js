@@ -56,14 +56,6 @@ export default function ({ req, store, app, redirect }) {
       } catch (error) {
         console.log('- - - ... fucking error in parsing cookie with process.server == true : \n', error)
       }
-      // try {
-      // langCookie = parsed.lang;
-      // console.log("- - - checkTokens /  langCookie :",  langCookie) ;
-      // store.commit('SET_LANG',  langCookie, { root: true }) ;
-      // }
-      // catch(error) {
-      // console.log("- - - ... fucking error in parsing cookie with process.server == true : \n", error)
-      // }
     }
   }
 
@@ -125,9 +117,12 @@ export default function ({ req, store, app, redirect }) {
   // if ( accessToken == null || store.state.auth.isAnonymous ) {
   if (accessToken == null) {
     // if neither tokens in cookie nor store consider user as anonymous and get anonymous access_token
+    let promisesList = []
     console.log('- - - checkTokens / no access_token detected')
     const accessAnonymous = store.dispatch('auth/loginAnonymous')
-    return Promise.all([ accessAnonymous ])
+    promisesList.push(accessAnonymous)
+    // return Promise.all([ accessAnonymous ])
+    return Promise.all(promisesList)
   } else {
     // 2b // If the user an access_token and a test them
     console.log('- - - checkTokens / access_token and refresh_token detected')

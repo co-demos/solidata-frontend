@@ -279,6 +279,7 @@ export default {
           doc_id: this.$store.state.auth.user_id,
           form: [{
             'field_to_update': 'profile.agreement',
+            'doc_type': 'usr',
             'field_value': true
           }]
         }
